@@ -19,6 +19,9 @@ public class Triangle implements Shapes.Shape {
     private double length3;
 
     public Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
+        if (Math.abs((x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1)) <= EPSILON) {
+            throw new IllegalArgumentException("points can’t be on one line");
+        }
         this.x1 = x1;
         this.y1 = y1;
 

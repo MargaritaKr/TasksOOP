@@ -7,6 +7,9 @@ public class Square implements Shapes.Shape {
     private double sideLength;
 
     public Square(double sideLength) {
+        if (sideLength < 0) {
+            throw new IllegalArgumentException("side length must be >= 0");
+        }
         this.sideLength = sideLength;
     }
 

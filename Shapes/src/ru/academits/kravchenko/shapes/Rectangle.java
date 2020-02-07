@@ -8,6 +8,9 @@ public class Rectangle implements Shapes.Shape {
     private double secondSideLength;
 
     public Rectangle(double firstSideLength, double secondSideLength) {
+        if (firstSideLength < 0 || secondSideLength < 0) {
+            throw new IllegalArgumentException("side length must be >= 0");
+        }
         this.firstSideLength = firstSideLength;
         this.secondSideLength = secondSideLength;
     }
