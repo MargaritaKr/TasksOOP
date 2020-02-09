@@ -1,33 +1,34 @@
-package ru.academits.kravchenko.shapes_main;
+package ru.academits.kravchenko.shape_main;
 
-import ru.academits.kravchenko.shapes.*;
+import ru.academits.kravchenko.shape.*;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
 public class Main {
-    private final static double EPSILON = 1.0e-10;
-    private static Comparator<? super Shapes.Shape> areaComparator = new ShapeAreaComparator();
-    private static Comparator<? super Shapes.Shape> perimeterComparator = new ShapePerimeterComparator();
+    private static Comparator<Shape> areaComparator = new ShapeAreaComparator();
+    private static Comparator<Shape> perimeterComparator = new ShapePerimeterComparator();
 
-    private static Shapes.Shape getMaxAreaShape(Shapes.Shape[] shapes) {
+    private static Shape getMaxAreaShape(Shape[] shapes) {
         Arrays.sort(shapes, areaComparator);
 
         return shapes[shapes.length - 1];
     }
 
-    private static Shapes.Shape getSecondPerimeterShape(Shapes.Shape[] shapes) {
+    private static Shape getSecondPerimeterShape(Shape[] shapes) {
         Arrays.sort(shapes, perimeterComparator);
 
         return shapes[shapes.length - 2];
     }
 
-    private static void printCompare(Shapes.Shape firstShape, Shapes.Shape secondShape) {
+    private static void printCompare(Shape shape1, Shape shape2) {
         System.out.println("    ФИГУРЫ");
-        System.out.println(firstShape.toString());
-        System.out.println(secondShape.toString());
+        System.out.println(shape1.toString());
+        System.out.println(shape2.toString());
+        System.out.println("Хэш-код 1:" + shape1.hashCode());
+        System.out.println("Хэш-код 2:" + shape2.hashCode());
 
-        if (firstShape.equals(secondShape)) {
+        if (shape1.equals(shape2)) {
             System.out.println("    РАВНЫ");
             System.out.println();
         } else {
@@ -37,7 +38,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Shapes.Shape[] shapes = new Shapes.Shape[10];
+        Shape[] shapes = new Shape[10];
 
         shapes[0] = new Circle(1.2);
         shapes[1] = new Circle(0.9);
@@ -50,10 +51,10 @@ public class Main {
         shapes[6] = new Rectangle(1.75, 1.6);
 
         shapes[7] = new Triangle(1.5, 1, 2.5, 3, 3.5, 0);
-        shapes[8] = new Triangle(3.4, 0, 4.4, 3, 5.4, 1);
+        shapes[8] = new Triangle(1.5, 1, 2.5, 3, 3.5, 0);
         shapes[9] = new Triangle(1.1, 2.3, 3.8, 4, 4.1, 1.9);
 
-        for (ru.academits.kravchenko.shapes.Shapes.Shape shape : shapes) {
+        for (ru.academits.kravchenko.shape.Shape shape : shapes) {
             System.out.print(shape.toString());
             System.out.printf(" (Площадь фигуры: %.2f, ", shape.getArea());
             System.out.printf("Периметр фигуры: %.2f)%n", shape.getPerimeter());
@@ -71,20 +72,6 @@ public class Main {
         System.out.print("Фигура со вторым по величине периметром это - ");
         System.out.println(getSecondPerimeterShape(shapes).toString());
         System.out.println();
-    }
-
-    static class ShapeAreaComparator implements Comparator<Shapes.Shape> {
-        @Override
-        public int compare(Shapes.Shape firstShape, Shapes.Shape secondShape) {
-            return Double.compare(firstShape.getArea() - secondShape.getArea(), EPSILON);
-        }
-    }
-
-    static class ShapePerimeterComparator implements Comparator<Shapes.Shape> {
-        @Override
-        public int compare(Shapes.Shape firstShape, Shapes.Shape secondShape) {
-            return Double.compare(firstShape.getPerimeter() - secondShape.getPerimeter(), EPSILON);
-        }
     }
 }
 

@@ -1,15 +1,16 @@
-package ru.academits.kravchenko.shapes;
+package ru.academits.kravchenko.shape;
 
-public class Square implements Shapes.Shape {
+public class Square implements Shape {
     private final static int SIDES_AMOUNT = 4;
     private final static double EPSILON = 1.0e-10;
 
     private double sideLength;
 
     public Square(double sideLength) {
-        if (sideLength < 0) {
-            throw new IllegalArgumentException("side length must be >= 0");
+        if (sideLength <= 0) {
+            throw new IllegalArgumentException("side length must be > 0");
         }
+
         this.sideLength = sideLength;
     }
 
@@ -49,7 +50,7 @@ public class Square implements Shapes.Shape {
             return true;
         }
 
-        if (object == null || object.getClass() != this.getClass()) {
+        if (object == null || object.getClass() != getClass()) {
             return false;
         }
 

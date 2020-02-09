@@ -1,13 +1,14 @@
-package ru.academits.kravchenko.shapes;
+package ru.academits.kravchenko.shape;
 
-public class Circle implements Shapes.Shape {
+public class Circle implements Shape {
     private final static double EPSILON = 1.0e-10;
     private double radius;
 
     public Circle(double radius) {
-        if (radius < 0) {
-            throw new IllegalArgumentException("radius must be >= 0");
+        if (radius <= 0) {
+            throw new IllegalArgumentException("radius must be > 0");
         }
+
         this.radius = radius;
     }
 
@@ -47,12 +48,12 @@ public class Circle implements Shapes.Shape {
             return true;
         }
 
-        if (object == null || object.getClass() != this.getClass()) {
+        if (object == null || object.getClass() != getClass()) {
             return false;
         }
 
         Circle otherCircle = (Circle) object;
 
-        return Math.abs(radius - otherCircle.radius) <= EPSILON;
+        return radius == otherCircle.radius;
     }
 }
