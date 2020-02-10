@@ -11,7 +11,7 @@ public class Vector {
             throw new IllegalArgumentException("size must be >= 0");
         }
 
-        this.components = new double[size];
+        components = new double[size];
     }
 
     public Vector(Vector vector) {
@@ -19,13 +19,13 @@ public class Vector {
     }
 
     public Vector(double[] numbers) {
-        this.components = new double[numbers.length];
+        components = new double[numbers.length];
 
         System.arraycopy(numbers, 0, components, 0, components.length);
     }
 
     public Vector(int size, double[] numbers) {
-        this.components = new double[size];
+        components = new double[size];
 
         System.arraycopy(numbers, 0, components, 0, Math.min(numbers.length, size));
     }
@@ -87,7 +87,6 @@ public class Vector {
 
         return Math.sqrt(result);
     }
-
 
     public static Vector getSum(Vector vector1, Vector vector2) {
         Vector result = new Vector(Math.max(vector1.components.length, vector2.components.length), vector1.components);

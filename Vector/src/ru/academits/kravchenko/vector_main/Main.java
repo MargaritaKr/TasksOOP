@@ -103,8 +103,5 @@ public class Main {
         System.out.println("Скалярное произведение вектора 2: " + vector2.toString() + " и вектора 3: " + vector3.toString());
         System.out.printf("это число: %.2f", Vector.getScalarProduct(vector2, vector3));
         System.out.println();
-
-        System.out.println("Name of the current class:" + vector1.getClass());
-
     }
 }
