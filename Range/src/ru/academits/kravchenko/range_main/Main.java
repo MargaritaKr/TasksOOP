@@ -20,9 +20,8 @@ public class Main {
 
         Range factualRange = new Range(from, to);
 
-        double diapasonLength = factualRange.getLength();
-
-        System.out.printf("Длина диапазона составляет: %.4f  ед.изм.%n", diapasonLength);
+        double length = factualRange.getLength();
+        System.out.printf("Длина диапазона составляет: %.4f  ед.изм.%n", length);
 
         if (factualRange.isInside(criticalValue)) {
             System.out.println("По результатам испытаний диапазон содержит критическое значение.");

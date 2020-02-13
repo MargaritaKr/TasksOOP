@@ -31,12 +31,12 @@ public class Main {
 
         Range range2 = new Range(from, to);
 
-        System.out.println("Диапазон 1: " + Range.printRange(range1));
-        System.out.printf(Locale.ENGLISH,"Длина диапазона 1: %.2f%n", range1.getLength());
+        System.out.println("Диапазон 1: " + range1.toString());
+        System.out.printf(Locale.ENGLISH, "Длина диапазона 1: %.2f%n", range1.getLength());
         System.out.println();
 
-        System.out.println("Диапазон 2: " + Range.printRange(range2));
-        System.out.printf(Locale.ENGLISH,"Длина диапазона 2: %.2f%n", range2.getLength());
+        System.out.println("Диапазон 2: " + range2.toString());
+        System.out.printf(Locale.ENGLISH, "Длина диапазона 2: %.2f%n", range2.getLength());
         System.out.println();
 
         Range rangesIntersection = range1.getIntersection(range2);
@@ -45,17 +45,17 @@ public class Main {
             System.out.println("У заданных диапазонов отсутствует пересечение.");
             System.out.println();
         } else {
-            System.out.println("Пересечение диапазонов: " + Range.printRange(rangesIntersection));
+            System.out.println("Пересечение диапазонов: " + rangesIntersection.toString());
             System.out.println();
         }
 
         Range[] rangesUnion = range1.getUnion(range2);
 
-        System.out.println("Сумма диапазонов: " + Range.printRange(rangesUnion));
+        System.out.println("Сумма диапазонов: " + Range.print(rangesUnion));
         System.out.println();
 
         Range[] rangesDifference = range1.getDifference(range2);
 
-        System.out.println("Разность диапазонов: " + Range.printRange(rangesDifference));
+        System.out.println("Разность диапазонов: " + Range.print(rangesDifference));
     }
 }

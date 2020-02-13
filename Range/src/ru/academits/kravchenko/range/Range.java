@@ -29,7 +29,7 @@ public class Range {
         return to - from;
     }
 
-    public boolean isInside(double presentNumber) {
-        return presentNumber >= from && presentNumber <= to;
+    public boolean isInside(double number) {
+        return number >= from && number <= to;
     }
 }

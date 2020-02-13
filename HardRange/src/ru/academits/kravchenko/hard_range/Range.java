@@ -23,16 +23,12 @@ public class Range {
         return to - from;
     }
 
-    public boolean isInside(double presentNumber) {
-        return presentNumber >= from && presentNumber <= to;
+    public boolean isInside(double number) {
+        return number >= from && number <= to;
     }
 
     public Range getIntersection(Range range) {
-        if (to <= range.from) {
-            return null;
-        }
-
-        if (from >= range.to) {
+        if (to <= range.from || from >= range.to) {
             return null;
         }
 
@@ -44,11 +40,15 @@ public class Range {
             return new Range[]{new Range(from, to), new Range(range.from, range.to)};
         }
 
+        if (from > range.to) {
+            return new Range[]{new Range(range.from, range.to), new Range(from, to)};
+        }
+
         return new Range[]{new Range(Math.min(from, range.from), Math.max(to, range.to))};
     }
 
     public Range[] getDifference(Range range) {
-        if (to < range.from) {
+        if (to < range.from || from > range.to) {
             return new Range[]{new Range(from, to)};
         }
 
@@ -67,19 +67,28 @@ public class Range {
         return new Range[]{};
     }
 
-    public static String printRange(Range range) {
-        return String.format(Locale.ENGLISH,"(%.2f; %.2f)", range.from, range.to);
+    public String toString() {
+        return String.format(Locale.ENGLISH, "(%.2f; %.2f)", from, to);
     }
 
-    public static String printRange(Range[] ranges) {
-        if (ranges.length == 2) {
-            return String.format(Locale.ENGLISH,"[(%.2f; %.2f),(%.2f; %.2f)]", ranges[0].from, ranges[0].to, ranges[1].from, ranges[1].to);
+    public static String print(Range[] ranges) {
+        if (ranges.length == 0) {
+            return "[ ]";
         }
 
-        if (ranges.length == 1) {
-            return String.format(Locale.ENGLISH,"[(%.2f; %.2f)]", ranges[0].from, ranges[0].to);
+        StringBuilder rangesToString = new StringBuilder("[");
+
+        for (int i = 0; i < ranges.length; i++) {
+            rangesToString.append(ranges[i].toString());
+
+            if (i == ranges.length - 1) {
+                rangesToString.append("]");
+                return rangesToString.toString();
+            }
+
+            rangesToString.append(",");
         }
 
-        return "[]";
+        return rangesToString.toString();
     }
 }
