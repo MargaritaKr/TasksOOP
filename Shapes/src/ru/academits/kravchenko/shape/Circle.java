@@ -1,7 +1,6 @@
 package ru.academits.kravchenko.shape;
 
 public class Circle implements Shape {
-    private final static double EPSILON = 1.0e-10;
     private double radius;
 
     public Circle(double radius) {

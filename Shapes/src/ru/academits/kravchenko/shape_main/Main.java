@@ -21,7 +21,7 @@ public class Main {
         return shapes[shapes.length - 2];
     }
 
-    private static void printCompare(Shape shape1, Shape shape2) {
+    private static void printComparisonResult(Shape shape1, Shape shape2) {
         System.out.println("    ФИГУРЫ");
         System.out.println(shape1.toString());
         System.out.println(shape2.toString());
@@ -38,32 +38,23 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Shape[] shapes = new Shape[10];
+        Shape[] shapes = new Shape[]{new Circle(1.2), new Circle(0.9),
+                new Square(1.34), new Square(2),
+                new Rectangle(0.95, 2.11), new Rectangle(1.75, 1.6), new Rectangle(2.11, 0.95),
+                new Triangle(1.5, 1, 2.5, 3, 3.5, 0), new Triangle(1.1, 2.3, 3.8, 4, 4.1, 1.9)};
 
-        shapes[0] = new Circle(1.2);
-        shapes[1] = new Circle(0.9);
-
-        shapes[2] = new Square(1.34);
-        shapes[3] = new Square(2);
-
-        shapes[4] = new Rectangle(0.95, 2.11);
-        shapes[5] = new Rectangle(2.11, 0.95);
-        shapes[6] = new Rectangle(1.75, 1.6);
-
-        shapes[7] = new Triangle(1.5, 1, 2.5, 3, 3.5, 0);
-        shapes[8] = new Triangle(1.5, 1, 2.5, 3, 3.5, 0);
-        shapes[9] = new Triangle(1.1, 2.3, 3.8, 4, 4.1, 1.9);
-
-        for (ru.academits.kravchenko.shape.Shape shape : shapes) {
+        for (Shape shape : shapes) {
             System.out.print(shape.toString());
-            System.out.printf(" (Площадь фигуры: %.2f, ", shape.getArea());
-            System.out.printf("Периметр фигуры: %.2f)%n", shape.getPerimeter());
+            System.out.printf(" (ширина: %.2f; ", shape.getWidth());
+            System.out.printf("высота: %.2f; ", shape.getHeight());
+            System.out.printf("площадь: %.2f; ", shape.getArea());
+            System.out.printf("периметр: %.2f)%n", shape.getPerimeter());
         }
 
         System.out.println();
 
         for (int i = 0; i < shapes.length - 1; i++) {
-            printCompare(shapes[i], shapes[i + 1]);
+            printComparisonResult(shapes[i], shapes[i + 1]);
         }
 
         System.out.print("Фигура с максимальной площадью это - ");
@@ -74,4 +65,3 @@ public class Main {
         System.out.println();
     }
 }
-

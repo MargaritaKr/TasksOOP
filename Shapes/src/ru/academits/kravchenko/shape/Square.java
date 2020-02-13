@@ -2,7 +2,6 @@ package ru.academits.kravchenko.shape;
 
 public class Square implements Shape {
     private final static int SIDES_AMOUNT = 4;
-    private final static double EPSILON = 1.0e-10;
 
     private double sideLength;
 
@@ -56,6 +55,6 @@ public class Square implements Shape {
 
         Square otherSquare = (Square) object;
 
-        return Math.abs(sideLength - otherSquare.sideLength) <= EPSILON;
+        return sideLength == otherSquare.sideLength;
     }
 }

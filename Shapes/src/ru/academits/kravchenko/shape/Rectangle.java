@@ -2,7 +2,6 @@ package ru.academits.kravchenko.shape;
 
 public class Rectangle implements Shape {
     private final static int SAME_SIDES_AMOUNT = 2;
-    private final static double EPSILON = 1.0e-10;
 
     private double width;
     private double height;
@@ -46,8 +45,8 @@ public class Rectangle implements Shape {
         final int prime = 37;
         int hash = 1;
 
-        hash = prime * hash + Double.hashCode(Math.min(width, height));
-        hash = prime * hash + Double.hashCode(Math.max(width, height));
+        hash = prime * hash + Double.hashCode(width);
+        hash = prime * hash + Double.hashCode(height);
 
         return hash;
     }
@@ -64,9 +63,6 @@ public class Rectangle implements Shape {
 
         Rectangle otherRectangle = (Rectangle) object;
 
-        return (Math.abs(width - otherRectangle.width) <= EPSILON &&
-                Math.abs(height - otherRectangle.height) <= EPSILON) ||
-                (Math.abs(width - otherRectangle.height) <= EPSILON &&
-                        Math.abs(height - otherRectangle.width) <= EPSILON);
+        return width == otherRectangle.width && height == otherRectangle.height;
     }
 }

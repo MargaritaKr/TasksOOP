@@ -1,4 +1,6 @@
-package ru.academits.kravchenko.shape;
+package ru.academits.kravchenko.shape_main;
+
+import ru.academits.kravchenko.shape.Shape;
 
 import java.util.Comparator;
 

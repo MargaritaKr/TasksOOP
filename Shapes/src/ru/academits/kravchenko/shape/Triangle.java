@@ -27,12 +27,8 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-    private double[] getSideLengths() {
-        double length1 = Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2));
-        double length2 = Math.sqrt(Math.pow((x1 - x3), 2) + Math.pow((y1 - y3), 2));
-        double length3 = Math.sqrt(Math.pow((x2 - x3), 2) + Math.pow((y2 - y3), 2));
-
-        return new double[]{length1, length2, length3};
+    private double getSideLength(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2));
     }
 
     private double getDistanceByAxis(double a, double b, double c) {
@@ -53,12 +49,12 @@ public class Triangle implements Shape {
     public double getArea() {
         double halfPerimeter = getPerimeter() / 2;
 
-        return Math.sqrt(halfPerimeter * (halfPerimeter - getSideLengths()[0]) * (halfPerimeter - getSideLengths()[1]) * (halfPerimeter - getSideLengths()[2]));
+        return Math.sqrt(halfPerimeter * (halfPerimeter - getSideLength(x1, y1, x2, y2)) * (halfPerimeter - getSideLength(x1, y1, x3, y3)) * (halfPerimeter - getSideLength(x2, y2, x3, y3)));
     }
 
     @Override
     public double getPerimeter() {
-        return getSideLengths()[0] + getSideLengths()[1] + getSideLengths()[2];
+        return getSideLength(x1, y1, x2, y2) + getSideLength(x1, y1, x3, y3) + getSideLength(x2, y2, x3, y3);
     }
 
     @Override
