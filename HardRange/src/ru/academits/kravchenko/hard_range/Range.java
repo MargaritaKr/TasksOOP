@@ -73,22 +73,22 @@ public class Range {
 
     public static String print(Range[] ranges) {
         if (ranges.length == 0) {
-            return "[ ]";
+            return "[]";
         }
 
-        StringBuilder rangesToString = new StringBuilder("[");
+        StringBuilder stringBuilder = new StringBuilder("[");
 
         for (int i = 0; i < ranges.length; i++) {
-            rangesToString.append(ranges[i].toString());
+            stringBuilder.append(ranges[i].toString());
 
             if (i == ranges.length - 1) {
-                rangesToString.append("]");
-                return rangesToString.toString();
+                stringBuilder.append("]");
+                break;
             }
 
-            rangesToString.append(",");
+            stringBuilder.append(", ");
         }
 
-        return rangesToString.toString();
+        return stringBuilder.toString();
     }
 }
