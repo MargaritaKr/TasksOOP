@@ -38,10 +38,16 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Shape[] shapes = new Shape[]{new Circle(1.2), new Circle(0.9),
-                new Square(1.34), new Square(2),
-                new Rectangle(0.95, 2.11), new Rectangle(1.75, 1.6), new Rectangle(2.11, 0.95),
-                new Triangle(1.5, 1, 2.5, 3, 3.5, 0), new Triangle(1.1, 2.3, 3.8, 4, 4.1, 1.9)};
+        Shape[] shapes = new Shape[]{
+                new Circle(1.2),
+                new Circle(0.9),
+                new Square(1.34),
+                new Square(2),
+                new Rectangle(0.95, 2.11),
+                new Rectangle(1.75, 1.6),
+                new Rectangle(2.11, 0.95),
+                new Triangle(1.5, 1, 2.5, 3, 3.5, 0),
+                new Triangle(1.1, 2.3, 3.8, 4, 4.1, 1.9)};
 
         for (Shape shape : shapes) {
             System.out.print(shape.toString());
