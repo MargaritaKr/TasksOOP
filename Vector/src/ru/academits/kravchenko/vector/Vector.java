@@ -19,11 +19,7 @@ public class Vector {
     }
 
     public Vector(double... numbers) {
-        if (numbers.length == 0) {
-            throw new IllegalArgumentException("size must be > 0");
-        }
-
-        components = Arrays.copyOf(numbers, numbers.length);
+        this(numbers.length, numbers);
     }
 
     public Vector(int size, double[] numbers) {
@@ -36,7 +32,7 @@ public class Vector {
 
     public double getComponent(int index) {
         if (index < 0 || index >= components.length) {
-            throw new IllegalArgumentException("index must be >= 0 and < vector size");
+            throw new IndexOutOfBoundsException("index must be >= 0 and < vector size");
         }
 
         return components[index];
@@ -44,7 +40,7 @@ public class Vector {
 
     public void setComponent(double number, int index) {
         if (index < 0 || index >= components.length) {
-            throw new IllegalArgumentException("index must be >= 0 and < vector size");
+            throw new IndexOutOfBoundsException("index must be >= 0 and < vector size");
         }
 
         components[index] = number;
@@ -56,13 +52,17 @@ public class Vector {
 
     public void add(Vector vector) {
         if (vector.components.length > components.length){
-            Vector result = new Vector(vector.components.length, components);
+            double[] result = new double[vector.components.length];
 
-            for (int i = 0; i < result.components.length; i++) {
-                result.components[i] += vector.components[i];
+            for (int i = 0, j = 0; i < result.length; i++, j++) {
+                if (j < components.length){
+                    result[i] = components[i] + vector.components[i];
+                } else {
+                    result[i] = vector.components[i];
+                }
             }
 
-            components = result.components;
+            components = result;
             return;
         }
 
@@ -73,13 +73,17 @@ public class Vector {
 
     public void subtract(Vector vector) {
         if (vector.components.length > components.length){
-            Vector result = new Vector(vector.components.length, components);
+            double[] result = new double[vector.components.length];
 
-            for (int i = 0; i < result.components.length; i++) {
-                result.components[i] -= vector.components[i];
+            for (int i = 0, j = 0; i < result.length; i++, j++) {
+                if (j < components.length){
+                    result[i] = components[j] - vector.components[i];
+                } else {
+                    result[i] = vector.components[i];
+                }
             }
 
-            components = result.components;
+            components = result;
             return;
         }
 
@@ -171,11 +175,9 @@ public class Vector {
         }
 
         for (int i = 0; i < components.length; i++) {
-            if (components[i] == otherVector.components[i]) {
-                continue;
+            if (components[i] != otherVector.components[i]) {
+                return false;
             }
-
-            return false;
         }
 
         return true;
