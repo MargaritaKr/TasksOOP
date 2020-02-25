@@ -51,19 +51,10 @@ public class Vector {
     }
 
     public void add(Vector vector) {
-        if (vector.components.length > components.length){
+        if (vector.components.length > components.length) {
             double[] result = new double[vector.components.length];
-
-            for (int i = 0, j = 0; i < result.length; i++, j++) {
-                if (j < components.length){
-                    result[i] = components[i] + vector.components[i];
-                } else {
-                    result[i] = vector.components[i];
-                }
-            }
-
+            System.arraycopy(components, 0, result, 0, components.length);
             components = result;
-            return;
         }
 
         for (int i = 0; i < vector.components.length; i++) {
@@ -72,19 +63,10 @@ public class Vector {
     }
 
     public void subtract(Vector vector) {
-        if (vector.components.length > components.length){
+        if (vector.components.length > components.length) {
             double[] result = new double[vector.components.length];
-
-            for (int i = 0, j = 0; i < result.length; i++, j++) {
-                if (j < components.length){
-                    result[i] = components[j] - vector.components[i];
-                } else {
-                    result[i] = vector.components[i];
-                }
-            }
-
+            System.arraycopy(components, 0, result, 0, components.length);
             components = result;
-            return;
         }
 
         for (int i = 0; i < vector.components.length; i++) {
