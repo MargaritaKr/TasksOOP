@@ -3,8 +3,6 @@ package ru.academits.kravchenko.matrix_main;
 import ru.academits.kravchenko.matrix.Matrix;
 import ru.academits.kravchenko.vector.Vector;
 
-import java.util.Arrays;
-
 public class Main {
     public static void main(String[] args) {
         System.out.println("Тест класса Matrix");
@@ -13,7 +11,6 @@ public class Main {
         Matrix matrix1 = new Matrix(2, 3);
 
         System.out.print("Создаем матрицу 1 (нулей) размера 2 х 3: " + matrix1);
-        System.out.println(", размер: " + Arrays.toString(matrix1.getSizes()));
         System.out.println();
 
         System.out.println("Создаем несколько векторов разного размера:");
@@ -33,7 +30,6 @@ public class Main {
 
         System.out.println("Создаем матрицу 2 из массива векторов разного размера (строки дополнены нулями):");
         System.out.print(matrix2);
-        System.out.println(", размер: " + Arrays.toString(matrix2.getSizes()));
         System.out.println("Вычислим определитель квадратной матирцы 2. Он равен: " + matrix2.getDeterminant());
         System.out.println();
 
@@ -51,21 +47,21 @@ public class Main {
 
         System.out.println("Поменяем первые две строки матрицы 4 на первый столбец из матрицы 2 и первую строку из матрицы 3.");
 
-        matrix4.setString(matrix2.getColumn(0), 0);
-        matrix4.setString(matrix3.getString(0), 1);
+        matrix4.setRow(matrix2.getColumn(0), 0);
+        matrix4.setRow(matrix3.getRow(0), 1);
 
         System.out.println("Теперь матрица 4 выглядет так: " + matrix4);
         System.out.println();
 
         System.out.println("Матрица 3 не изменилась: " + matrix3);
-        System.out.print("Количество строк: " + matrix3.getStringsCount());
+        System.out.print("Количество строк: " + matrix3.getRowsCount());
         System.out.println(", количество столбцов: " + matrix3.getColumnsCount());
         System.out.println();
 
         matrix3.transpose();
 
         System.out.println("Матрица 3 транспонированная: " + matrix3);
-        System.out.print("Количество строк: " + matrix3.getStringsCount());
+        System.out.print("Количество строк: " + matrix3.getRowsCount());
         System.out.println(", количество столбцов: " + matrix3.getColumnsCount());
         System.out.println();
 
@@ -77,7 +73,7 @@ public class Main {
         System.out.println();
 
         System.out.print("А теперь умножим матрицу 3 на вектор 4 " + vector4.toString() + ", ");
-        System.out.println("результирующий вектор: " + matrix3.multiply(vector4));
+        System.out.println("результирующий вектор: " + matrix3.getProduct(vector4));
         System.out.println();
 
         Matrix matrix5 = new Matrix(new double[][]{{2, 3, 4}, {5, 6, 7}});
@@ -118,7 +114,7 @@ public class Main {
         Matrix matrix8 = Matrix.getComposition(matrix5, matrix6);
 
         System.out.print(matrix8);
-        System.out.println(", ее размер: " + Arrays.toString(matrix8.getSizes()));
+        System.out.printf(", ее размер: %d х %d%n", matrix8.getRowsCount(), matrix8.getColumnsCount());
         System.out.println();
 
         System.out.print("А матрица произведения матрицы 6 и матрицы 5: ");
@@ -126,6 +122,6 @@ public class Main {
         Matrix matrix9 = Matrix.getComposition(matrix6, matrix5);
 
         System.out.print(matrix9);
-        System.out.println(", ее размер: " + Arrays.toString(matrix9.getSizes()));
+        System.out.printf(", ее размер: %d х %d%n", matrix9.getRowsCount(), matrix9.getColumnsCount());
     }
 }
