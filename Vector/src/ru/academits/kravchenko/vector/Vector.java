@@ -52,9 +52,7 @@ public class Vector {
 
     public void add(Vector vector) {
         if (vector.components.length > components.length) {
-            double[] result = new double[vector.components.length];
-            System.arraycopy(components, 0, result, 0, components.length);
-            components = result;
+            components = Arrays.copyOf(components, vector.components.length);
         }
 
         for (int i = 0; i < vector.components.length; i++) {
@@ -64,9 +62,7 @@ public class Vector {
 
     public void subtract(Vector vector) {
         if (vector.components.length > components.length) {
-            double[] result = new double[vector.components.length];
-            System.arraycopy(components, 0, result, 0, components.length);
-            components = result;
+            components = Arrays.copyOf(components, vector.components.length);
         }
 
         for (int i = 0; i < vector.components.length; i++) {
