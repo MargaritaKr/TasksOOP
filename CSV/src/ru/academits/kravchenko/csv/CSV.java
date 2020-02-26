@@ -1,4 +1,4 @@
-package ru.academits.kravchenko;
+package ru.academits.kravchenko.csv;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
