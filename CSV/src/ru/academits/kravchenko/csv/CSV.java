@@ -5,10 +5,17 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+// "CSV/CSV.csv" name
+// "CSV/tableCSV.HTML" filename
+
 public class CSV {
     public static void main(String[] args) throws FileNotFoundException {
-        try (Scanner scanner = new Scanner(new FileInputStream("CSV/CSV.csv"));
-             PrintWriter writer = new PrintWriter("CSV/tableCSV.HTML")) {
+        if (args.length != 2){
+            throw new ArrayIndexOutOfBoundsException("2 parameters required");
+        }
+
+        try (Scanner scanner = new Scanner(new FileInputStream(args[0]));
+             PrintWriter writer = new PrintWriter(args[1])) {
             writer.println("<!DOCTYPE html>");
             writer.println("<html>");
             writer.println("<head>");
@@ -61,7 +68,7 @@ public class CSV {
                         continue;
                     }
 
-                    if (isSellWithQuotes && symbol == '"') {                           // печать конца ячейки с кавычками и спец.символов
+                    if (isSellWithQuotes && symbol == '"') {          // печать конца ячейки с кавычками и спец.символов
                         if (i == line.length() - 1) {
                             writer.println("</td>");
                             break;
