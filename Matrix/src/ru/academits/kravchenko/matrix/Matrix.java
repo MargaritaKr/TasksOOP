@@ -13,8 +13,7 @@ public class Matrix {
         rows = new Vector[rowsCount];
 
         for (int i = 0; i < rowsCount; i++) {
-            Vector row = new Vector(columnsCount);
-            rows[i] = row;
+            rows[i] = new Vector(columnsCount);
         }
     }
 
@@ -23,16 +22,16 @@ public class Matrix {
             throw new IllegalArgumentException("matrix rows count must be > 0");
         }
 
-        this.rows = new Vector[rows.length];
-
-        int vectorslength = 0;
+        int vectorsLength = 0;
 
         for (Vector row : rows) {
-            vectorslength = Math.max(row.getSize(), vectorslength);
+            vectorsLength = Math.max(row.getSize(), vectorsLength);
         }
 
+        this.rows = new Vector[rows.length];
+
         for (int i = 0; i < rows.length; i++) {
-            this.rows[i] = new Vector(vectorslength);
+            this.rows[i] = new Vector(vectorsLength);
             this.rows[i].add(rows[i]);
         }
     }
@@ -42,25 +41,29 @@ public class Matrix {
             throw new IllegalArgumentException("matrix rows count must be > 0");
         }
 
-        this.rows = new Vector[rows.length];
-
-        int vectorslength = 0;
+        int vectorsLength = 0;
 
         for (double[] row : rows) {
-            vectorslength = Math.max(row.length, vectorslength);
+            vectorsLength = Math.max(row.length, vectorsLength);
         }
 
-        if (vectorslength == 0) {
+        if (vectorsLength == 0) {
             throw new IllegalArgumentException("matrix columns count must be > 0");
         }
 
+        this.rows = new Vector[rows.length];
+
         for (int i = 0; i < rows.length; i++) {
-            this.rows[i] = new Vector(vectorslength, rows[i]);
+            this.rows[i] = new Vector(vectorsLength, rows[i]);
         }
     }
 
     public Matrix(Matrix matrix) {
-        this(matrix.rows);
+        this.rows = new Vector[matrix.rows.length];
+
+        for (int i = 0; i < matrix.rows.length; i++) {
+            rows[i] = new Vector(matrix.rows[i]);
+        }
     }
 
     public int getColumnsCount() {
@@ -156,8 +159,8 @@ public class Matrix {
     }
 
     public void multiply(double number) {
-        for (Vector string : rows) {
-            string.multiply(number);
+        for (Vector row : rows) {
+            row.multiply(number);
         }
     }
 
@@ -166,13 +169,13 @@ public class Matrix {
             throw new IllegalArgumentException("vector length must be = columns count");
         }
 
-        double[] result = new double[rows.length];
+        Vector result = new Vector (rows.length);
 
         for (int i = 0; i < rows.length; i++) {
-            result[i] = Vector.getScalarProduct(getRow(i), vector);
+            result.setComponent(Vector.getScalarProduct(rows[i], vector),i);
         }
 
-        return new Vector(result);
+        return result;
     }
 
     public void add(Matrix matrix) {
@@ -181,7 +184,7 @@ public class Matrix {
         }
 
         for (int i = 0; i < rows.length; i++) {
-            rows[i].add(matrix.getRow(i));
+            rows[i].add(matrix.rows[i]);
         }
     }
 
@@ -191,7 +194,7 @@ public class Matrix {
         }
 
         for (int i = 0; i < rows.length; i++) {
-            rows[i].subtract(matrix.getRow(i));
+            rows[i].subtract(matrix.rows[i]);
         }
     }
 
@@ -235,19 +238,19 @@ public class Matrix {
 
     @Override
     public String toString() {
-        StringBuilder matrixToString = new StringBuilder("{ ");
+        StringBuilder stringBuilder = new StringBuilder("{ ");
 
         for (int i = 0; i < rows.length; i++) {
-            matrixToString.append(rows[i].toString());
+            stringBuilder.append(rows[i].toString());
 
             if (i == rows.length - 1) {
-                matrixToString.append(" }");
-                return matrixToString.toString();
+                stringBuilder.append(" }");
+                return stringBuilder.toString();
             }
 
-            matrixToString.append(", ");
+            stringBuilder.append(", ");
         }
 
-        return matrixToString.toString();
+        return stringBuilder.toString();
     }
 }
