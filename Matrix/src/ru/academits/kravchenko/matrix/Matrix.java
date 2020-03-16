@@ -82,7 +82,7 @@ public class Matrix {
         return new Vector(rows[index]);
     }
 
-    public void setRow(Vector vector, int index) {
+    public void setRow(int index, Vector vector) {
         if (index < 0 || index >= rows.length) {
             throw new IndexOutOfBoundsException("index must be >= 0 and < strings count");
         }
@@ -149,7 +149,7 @@ public class Matrix {
                     row.setComponent((rows[m + 1].getComponent(j)), n);
                 }
 
-                addition.setRow(row, m);
+                addition.setRow(m, row);
             }
 
             det += rows[0].getComponent(i) * Math.pow(-1, i) * addition.getDeterminant();
@@ -169,10 +169,10 @@ public class Matrix {
             throw new IllegalArgumentException("vector length must be = columns count");
         }
 
-        Vector result = new Vector (rows.length);
+        Vector result = new Vector(rows.length);
 
         for (int i = 0; i < rows.length; i++) {
-            result.setComponent(Vector.getScalarProduct(rows[i], vector),i);
+            result.setComponent(Vector.getScalarProduct(rows[i], vector), i);
         }
 
         return result;
@@ -229,7 +229,7 @@ public class Matrix {
 
         for (int i = 0; i < result.rows.length; i++) {
             for (int j = 0; j < result.getColumnsCount(); j++) {
-                result.rows[i].setComponent(Vector.getScalarProduct(matrix1.getRow(i), matrix2.getColumn(j)), j);
+                result.rows[i].setComponent(Vector.getScalarProduct(matrix1.rows[i], matrix2.getColumn(j)), j);
             }
         }
 

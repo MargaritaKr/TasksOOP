@@ -47,8 +47,8 @@ public class Main {
 
         System.out.println("Поменяем первые две строки матрицы 4 на первый столбец из матрицы 2 и первую строку из матрицы 3.");
 
-        matrix4.setRow(matrix2.getColumn(0), 0);
-        matrix4.setRow(matrix3.getRow(0), 1);
+        matrix4.setRow(0, matrix2.getColumn(0));
+        matrix4.setRow( 1, matrix3.getRow(0));
 
         System.out.println("Теперь матрица 4 выглядет так: " + matrix4);
         System.out.println();
