@@ -10,13 +10,13 @@ public class Main {
 
         SinglyLinkedList<Integer> numbers = new SinglyLinkedList<>();
 
-        for (int i = 1; i <= 10; i++){
+        for (int i = 1; i <= 10; i++) {
             numbers.add(numbers.getSize(), i);
         }
 
         SinglyLinkedList<String> strings = new SinglyLinkedList<>();
 
-        for (int i = 1; i <= 10; i++){
+        for (int i = 1; i <= 10; i++) {
             strings.add(strings.getSize(), "строка" + i);
         }
 
