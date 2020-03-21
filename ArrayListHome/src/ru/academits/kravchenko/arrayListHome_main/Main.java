@@ -16,7 +16,7 @@ public class Main {
         ArrayListHome.removeEvenNumbers(numbers);
         System.out.println(numbers);
 
-        ArrayList<Integer> numbers2 = new ArrayList<>(Arrays.asList(1, 5, 2, 1, 3, 5, 4, 4, 9, 1));
+        ArrayList<Integer> numbers2 = new ArrayList<>(Arrays.asList(1, 5, 2, 1, 3, 5, 4, 4, 11, 1));
         System.out.println(numbers2);
 
         System.out.println(ArrayListHome.removeDuplicates(numbers2));

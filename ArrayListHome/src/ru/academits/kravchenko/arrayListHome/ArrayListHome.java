@@ -14,7 +14,7 @@ public class ArrayListHome {
                 result.add(scanner.nextLine());
             }
         } catch (FileNotFoundException e) {
-            System.out.println("the argument must contain correct name and path to the file");
+            System.out.println("the argument must contain the correct name and path to the file");
         }
 
         return result;
