@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class CSV {
     public static void main(String[] args) throws FileNotFoundException {
-        if (args.length != 2){
+        if (args.length != 2) {
             throw new ArrayIndexOutOfBoundsException("2 parameters required");
         }
 
@@ -19,7 +19,7 @@ public class CSV {
             writer.println("<!DOCTYPE html>");
             writer.println("<html>");
             writer.println("<head>");
-            writer.println("<meta charset=utf-8\">");
+            writer.println("<meta charset=\"utf-8\">");
             writer.println("<title>Таблица CSV</title>");
             writer.println("</head>");
             writer.println("<body>");
@@ -30,23 +30,23 @@ public class CSV {
 
                 String line = scanner.nextLine();
 
-                if (line.length() == 0) {
+                if (line.isEmpty()) {
                     continue;
                 }
 
-                boolean isSellWithQuotes = false;
-                boolean isSellWithoutQuotes = false;
+                boolean isCellWithQuotes = false;
+                boolean isCellWithoutQuotes = false;
 
                 for (int i = 0; i < line.length(); i++) {
                     char symbol = line.charAt(i);
 
-                    if (!isSellWithQuotes && !isSellWithoutQuotes) {      // напечатали начало ячейки, установили флажок
+                    if (!isCellWithQuotes && !isCellWithoutQuotes) {      // напечатали начало ячейки, установили флажок
                         if (symbol == '"') {
-                            isSellWithQuotes = true;
+                            isCellWithQuotes = true;
 
                             writer.println("<td>");
                         } else {
-                            isSellWithoutQuotes = true;
+                            isCellWithoutQuotes = true;
 
                             writer.println("<td>");
                             writer.print(symbol);
@@ -55,10 +55,10 @@ public class CSV {
                         continue;
                     }
 
-                    if (isSellWithoutQuotes && symbol == ',') {                       // печать конца ячейки без кавычек
+                    if (isCellWithoutQuotes && symbol == ',') {                       // печать конца ячейки без кавычек
                         writer.println("</td>");
 
-                        isSellWithoutQuotes = false;
+                        isCellWithoutQuotes = false;
 
                         if (i == line.length() - 1) {
                             writer.println("<td>");
@@ -68,7 +68,7 @@ public class CSV {
                         continue;
                     }
 
-                    if (isSellWithQuotes && symbol == '"') {          // печать конца ячейки с кавычками и спец.символов
+                    if (isCellWithQuotes && symbol == '"') {          // печать конца ячейки с кавычками и спец.символов
                         if (i == line.length() - 1) {
                             writer.println("</td>");
                             break;
@@ -76,31 +76,32 @@ public class CSV {
                             writer.print('"');
                             i++;
                             continue;
-                        } else {
-                            writer.println("</td>");
-
-                            if (i == line.length() - 2) {
-                                writer.println("<td>");
-                                writer.println("</td>");
-                            }
-
-                            isSellWithQuotes = false;
-                            i++;
-                            continue;
                         }
+
+                        writer.println("</td>");
+
+                        if (i == line.length() - 2) {
+                            writer.println("<td>");
+                            writer.println("</td>");
+                        }
+
+                        isCellWithQuotes = false;
+                        i++;
+                        continue;
+
                     }
 
                     if (symbol == '<') {
-                        writer.print("&lt");
+                        writer.print("&lt;");
                     } else if (symbol == '>') {
-                        writer.print("&gt");
+                        writer.print("&gt;");
                     } else if (symbol == '&') {
-                        writer.print("&amp");
+                        writer.print("&amp;");
                     } else {
                         writer.print(symbol);
                     }
 
-                    if (isSellWithQuotes && i == line.length() - 1) {
+                    if (isCellWithQuotes && i == line.length() - 1) {
                         writer.println("<br/>");
                         line = scanner.nextLine();
                         i = -1;

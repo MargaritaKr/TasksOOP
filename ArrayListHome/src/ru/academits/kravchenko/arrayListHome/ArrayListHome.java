@@ -6,23 +6,21 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ArrayListHome {
-    public static ArrayList<String> readFile(String fileName) {
+    public static ArrayList<String> readFileInList(String fileName) {
         ArrayList<String> result = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(new FileInputStream(fileName))) {
             while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                result.add(line);
+                result.add(scanner.nextLine());
             }
         } catch (FileNotFoundException e) {
             System.out.println("the argument must contain correct name and path to the file");
-            e.printStackTrace();
         }
 
         return result;
     }
 
-    public static void removeEven(ArrayList<Integer> numbers) {
+    public static void removeEvenNumbers(ArrayList<Integer> numbers) {
         int i = 0;
 
         while (i < numbers.size()) {
@@ -35,14 +33,12 @@ public class ArrayListHome {
     }
 
     public static ArrayList<Integer> removeDuplicates(ArrayList<Integer> numbers) {
-        ArrayList<Integer> result = new ArrayList<>();
+        ArrayList<Integer> result = new ArrayList<>(numbers.size());
 
-        for (int element : numbers) {
-            if (result.contains(element)) {
-                continue;
+        for (Integer element : numbers) {
+            if (!result.contains(element)) {
+                result.add(element);
             }
-
-            result.add(element);
         }
 
         return result;
