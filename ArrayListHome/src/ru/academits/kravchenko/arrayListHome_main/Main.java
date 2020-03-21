@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        for (String s : ArrayListHome.readFileInList("CSV/CSV.csv")) {
+        for (String s : ArrayListHome.readFileLines("CSV/CSV.csv")) {
             System.out.println(s);
         }
 
@@ -19,6 +19,6 @@ public class Main {
         ArrayList<Integer> numbers2 = new ArrayList<>(Arrays.asList(1, 5, 2, 1, 3, 5, 4, 4, 11, 1));
         System.out.println(numbers2);
 
-        System.out.println(ArrayListHome.removeDuplicates(numbers2));
+        System.out.println(ArrayListHome.getListWithoutDuplicates(numbers2));
     }
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ArrayListHome {
-    public static ArrayList<String> readFileInList(String fileName) {
+    public static ArrayList<String> readFileLines(String fileName) {
         ArrayList<String> result = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(new FileInputStream(fileName))) {
@@ -14,7 +14,7 @@ public class ArrayListHome {
                 result.add(scanner.nextLine());
             }
         } catch (FileNotFoundException e) {
-            System.out.println("the argument must contain the correct name and path to the file");
+            System.out.println("file not found");
         }
 
         return result;
@@ -32,7 +32,7 @@ public class ArrayListHome {
         }
     }
 
-    public static ArrayList<Integer> removeDuplicates(ArrayList<Integer> numbers) {
+    public static ArrayList<Integer> getListWithoutDuplicates(ArrayList<Integer> numbers) {
         ArrayList<Integer> result = new ArrayList<>(numbers.size());
 
         for (Integer element : numbers) {
