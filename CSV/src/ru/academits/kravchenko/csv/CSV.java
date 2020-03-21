@@ -68,7 +68,7 @@ public class CSV {
                         continue;
                     }
 
-                    if (isCellWithQuotes && symbol == '"') {          // печать конца ячейки с кавычками и спец.символов
+                    if (isCellWithQuotes && symbol == '"') {          // печать конца ячейки с кавычками и спец.символами
                         if (i == line.length() - 1) {
                             writer.println("</td>");
                             break;
