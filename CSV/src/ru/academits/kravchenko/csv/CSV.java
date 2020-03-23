@@ -5,13 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-// "CSV/CSV.csv" name
-// "CSV/tableCSV.HTML" filename
+// "CSV/CSV.csv" "CSV/tableCSV.HTML" - аргументы
 
 public class CSV {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         if (args.length != 2) {
-            throw new ArrayIndexOutOfBoundsException("2 parameters required");
+            throw new ArrayIndexOutOfBoundsException("2 parameters must be entered: path to the CSV file and to the result file");
         }
 
         try (Scanner scanner = new Scanner(new FileInputStream(args[0]));
@@ -34,31 +33,37 @@ public class CSV {
                     continue;
                 }
 
-                boolean isCellWithQuotes = false;
-                boolean isCellWithoutQuotes = false;
+                boolean startCellWithQuotes = false;
+                boolean startCellWithoutQuotes = false;
 
                 for (int i = 0; i < line.length(); i++) {
                     char symbol = line.charAt(i);
 
-                    if (!isCellWithQuotes && !isCellWithoutQuotes) {      // напечатали начало ячейки, установили флажок
+                    if (!startCellWithQuotes && !startCellWithoutQuotes) {      // напечатали начало ячейки, установили флажок
                         if (symbol == '"') {
-                            isCellWithQuotes = true;
+                            startCellWithQuotes = true;
 
                             writer.println("<td>");
-                        } else {
-                            isCellWithoutQuotes = true;
+
+                            continue;
+                        } else if (symbol != ',') {
+                            startCellWithoutQuotes = true;
 
                             writer.println("<td>");
                             writer.print(symbol);
+
+                            continue;
                         }
 
-                        continue;
+                        startCellWithoutQuotes = true;
+
+                        writer.println("<td>");
                     }
 
-                    if (isCellWithoutQuotes && symbol == ',') {                       // печать конца ячейки без кавычек
+                    if (startCellWithoutQuotes && symbol == ',') {                       // печать конца ячейки без кавычек
                         writer.println("</td>");
 
-                        isCellWithoutQuotes = false;
+                        startCellWithoutQuotes = false;
 
                         if (i == line.length() - 1) {
                             writer.println("<td>");
@@ -68,7 +73,7 @@ public class CSV {
                         continue;
                     }
 
-                    if (isCellWithQuotes && symbol == '"') {          // печать конца ячейки с кавычками и спец.символами
+                    if (startCellWithQuotes && symbol == '"') {          // печать конца ячейки с кавычками и спец.символами
                         if (i == line.length() - 1) {
                             writer.println("</td>");
                             break;
@@ -85,7 +90,7 @@ public class CSV {
                             writer.println("</td>");
                         }
 
-                        isCellWithQuotes = false;
+                        startCellWithQuotes = false;
                         i++;
                         continue;
 
@@ -101,7 +106,7 @@ public class CSV {
                         writer.print(symbol);
                     }
 
-                    if (isCellWithQuotes && i == line.length() - 1) {
+                    if (startCellWithQuotes && i == line.length() - 1) {
                         writer.println("<br/>");
                         line = scanner.nextLine();
                         i = -1;
@@ -114,6 +119,8 @@ public class CSV {
             writer.println("</table>");
             writer.println("</body>");
             writer.println("</html>");
+        } catch (FileNotFoundException e) {
+            System.out.println("file not found");
         }
     }
 }
