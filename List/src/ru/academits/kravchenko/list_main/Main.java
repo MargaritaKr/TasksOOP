@@ -35,7 +35,7 @@ public class Main {
         System.out.println("Теперь его размер: " + strings.getSize());
         System.out.println();
 
-        System.out.println("Заменим элемент - " + strings.replace(10, "последняя строка") + ": " + strings);
+        System.out.println("Заменим элемент - " + strings.setData(10, "последняя строка") + ": " + strings);
         System.out.println();
 
         System.out.println("Удалим первый элемент - " + strings.deleteFirst() + ": " + strings);
@@ -44,20 +44,20 @@ public class Main {
         System.out.println("Удалим четверный элемент - " + strings.delete(3) + ": " + strings);
         System.out.println();
 
-        numbers.replace(2, 5);
-        numbers.replace(3, 5);
-        numbers.replace(7, 5);
+        numbers.setData(2, null);
+        numbers.setData(3, null);
+        numbers.setData(7, null);
 
-        System.out.println("Заменим на число 5 три элемента  \"Чисел\": " + numbers);
+        System.out.println("Заменим на null три элемента  \"Чисел\": " + numbers);
         System.out.println();
 
-        numbers.deleteFirstEntrance(5);
-        System.out.println("Удалим певое вхождение числа \"5\": " + numbers);
+        numbers.deleteFirstEntrance(null);
+        System.out.println("Удалим певое вхождение null: " + numbers);
 
-        numbers.deleteAllEntrances(5);
+        numbers.deleteAllEntrances(null);
         System.out.println("И все остальные тоже: " + numbers);
 
-        System.out.println("Удалим певое вхождение числа \"5\" еще раз: " + numbers.deleteFirstEntrance(5));
+        System.out.println("Удалим певое вхождение null еще раз: " + numbers.deleteFirstEntrance(null));
         System.out.println("И все вхождения числа \"1\": " + numbers.deleteAllEntrances(1));
         System.out.println();
 
@@ -75,5 +75,8 @@ public class Main {
 
         ListItem<Integer> withoutLink = new ListItem<>(4);
         System.out.println(withoutLink);
+
+        System.out.println();
+        System.out.println();
     }
 }
