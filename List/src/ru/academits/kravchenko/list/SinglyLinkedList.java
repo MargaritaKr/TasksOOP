@@ -4,7 +4,7 @@ public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int count;
 
-    private ListItem<T> currentLink(int index) {
+    private ListItem<T> getLink(int index) {
         ListItem<T> current = head;
 
         for (int i = 1; i <= index; i++) {
@@ -31,7 +31,7 @@ public class SinglyLinkedList<T> {
             throw new IndexOutOfBoundsException("index must be > 0 and < SinglyLinkedList size");
         }
 
-        return currentLink(index).getData();
+        return getLink(index).getData();
     }
 
     public T setData(int index, T data) {
@@ -39,8 +39,8 @@ public class SinglyLinkedList<T> {
             throw new IndexOutOfBoundsException("index must be > 0 and <= SinglyLinkedList size");
         }
 
-        T result = currentLink(index).getData();
-        currentLink(index).setData(data);
+        T result = getLink(index).getData();
+        getLink(index).setData(data);
 
         return result;
     }
