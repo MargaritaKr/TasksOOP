@@ -35,7 +35,7 @@ public class SinglyLinkedList<T> {
     }
 
     public T setData(int index, T data) {
-        if (index > count || index < 0) {
+        if (index >= count || index < 0) {
             throw new IndexOutOfBoundsException("index must be > 0 and <= SinglyLinkedList size");
         }
 

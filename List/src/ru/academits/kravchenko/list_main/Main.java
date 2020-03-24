@@ -75,8 +75,5 @@ public class Main {
 
         ListItem<Integer> withoutLink = new ListItem<>(4);
         System.out.println(withoutLink);
-
-        System.out.println();
-        System.out.println();
     }
 }
