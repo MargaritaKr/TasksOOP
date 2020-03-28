@@ -65,7 +65,7 @@ public class SinglyLinkedList<T> {
             return;
         }
 
-        ListItem<T> link = getLink(index-1);
+        ListItem<T> link = getLink(index - 1);
 
         ListItem<T> current = new ListItem<>(data, link.getNext());
 
@@ -96,7 +96,7 @@ public class SinglyLinkedList<T> {
             return deleteFirst();
         }
 
-        ListItem<T> prev = getLink(index-1);
+        ListItem<T> prev = getLink(index - 1);
         ListItem<T> current = prev.getNext();
 
         prev.setNext(current.getNext());
@@ -160,20 +160,20 @@ public class SinglyLinkedList<T> {
         }
 
         ListItem<T> current = head;
-        ListItem<T> linkForCurrent = null;
+        ListItem<T> prev = null;
 
         while (current != null) {
-            ListItem<T> temp = current.getNext();
+            ListItem<T> next = current.getNext();
 
-            current.setNext(linkForCurrent);
+            current.setNext(prev);
 
-            linkForCurrent = current;
+            prev = current;
 
-            if (temp == null) {
+            if (next == null) {
                 head = current;
             }
 
-            current = temp;
+            current = next;
         }
     }
 
