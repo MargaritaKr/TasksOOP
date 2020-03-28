@@ -26,7 +26,7 @@ public class Main {
         System.out.println();
 
         System.out.println("Первый элемент \"Чисел\": " + numbers.getFirst());
-        System.out.println("Пятый элемент \"Строк\": " + strings.getData(5));
+        System.out.println("Пятый элемент \"Строк\": " + strings.getData(4));
         System.out.println();
 
         System.out.println("Размер списка \"Строк\": " + strings.getSize());
@@ -41,7 +41,7 @@ public class Main {
         System.out.println("Удалим первый элемент - " + strings.deleteFirst() + ": " + strings);
         System.out.println();
 
-        System.out.println("Удалим четверный элемент - " + strings.delete(3) + ": " + strings);
+        System.out.println("Удалим четвертый элемент - " + strings.delete(3) + ": " + strings);
         System.out.println();
 
         numbers.setData(2, null);

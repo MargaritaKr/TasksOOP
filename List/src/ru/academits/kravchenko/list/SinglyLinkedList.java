@@ -1,5 +1,8 @@
 package ru.academits.kravchenko.list;
 
+import java.util.NoSuchElementException;
+import java.util.Objects;
+
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int count;
@@ -7,7 +10,7 @@ public class SinglyLinkedList<T> {
     private ListItem<T> getLink(int index) {
         ListItem<T> current = head;
 
-        for (int i = 1; i <= index; i++) {
+        for (int i = 0; i < index; i++) {
             current = current.getNext();
         }
 
@@ -20,7 +23,7 @@ public class SinglyLinkedList<T> {
 
     public T getFirst() {
         if (count == 0) {
-            throw new IndexOutOfBoundsException("SinglyLinkedList has not elements");
+            throw new NoSuchElementException("SinglyLinkedList has not elements");
         }
 
         return head.getData();
@@ -39,8 +42,10 @@ public class SinglyLinkedList<T> {
             throw new IndexOutOfBoundsException("index must be > 0 and <= SinglyLinkedList size");
         }
 
-        T result = getLink(index).getData();
-        getLink(index).setData(data);
+        ListItem<T> link = getLink(index);
+
+        T result = link.getData();
+        link.setData(data);
 
         return result;
     }
@@ -60,19 +65,20 @@ public class SinglyLinkedList<T> {
             return;
         }
 
-        ListItem<T> link = head;
-
-        for (int i = 0; i < index - 1; i++) {
-            link = link.getNext();
-        }
+        ListItem<T> link = getLink(index-1);
 
         ListItem<T> current = new ListItem<>(data, link.getNext());
+
         link.setNext(current);
 
         count++;
     }
 
     public T deleteFirst() {
+        if (count == 0) {
+            throw new NoSuchElementException("SinglyLinkedList has not elements");
+        }
+
         T first = head.getData();
 
         head = head.getNext();
@@ -90,24 +96,19 @@ public class SinglyLinkedList<T> {
             return deleteFirst();
         }
 
-        int i = 1;
+        ListItem<T> prev = getLink(index-1);
+        ListItem<T> current = prev.getNext();
 
-        for (ListItem<T> current = head.getNext(), prev = head; current != null; prev = current, current = current.getNext()) {
-            if (i == index) {
-                prev.setNext(current.getNext());
-                count--;
-                return current.getData();
-            }
+        prev.setNext(current.getNext());
 
-            i++;
-        }
+        count--;
 
-        return null;
+        return current.getData();
     }
 
     public boolean deleteFirstEntrance(T value) {
         for (ListItem<T> current = head, prev = null; current != null; prev = current, current = current.getNext()) {
-            if ((value != null && value.equals(current.getData())) || (value == null && current.getData() == null)) {
+            if (Objects.equals(value, current.getData())) {
                 if (prev == null) {
                     head = current.getNext();
                 } else {
@@ -129,7 +130,7 @@ public class SinglyLinkedList<T> {
         ListItem<T> prev = null;
 
         while (current != null) {
-            if ((value != null && value.equals(current.getData())) || (value == null && current.getData() == null)) {
+            if (Objects.equals(value, current.getData())) {
                 if (prev == null) {
                     head = current.getNext();
 
@@ -184,7 +185,6 @@ public class SinglyLinkedList<T> {
         }
 
         result.head = new ListItem<>(head.getData());
-        result.count = 1;
 
         for (ListItem<T> current = head.getNext(), currentInResult = result.head; current != null;
              current = current.getNext(), currentInResult = currentInResult.getNext()) {
@@ -192,9 +192,9 @@ public class SinglyLinkedList<T> {
             ListItem<T> nextInResult = new ListItem<>(current.getData());
 
             currentInResult.setNext(nextInResult);
-
-            result.count++;
         }
+
+        result.count = count;
 
         return result;
     }
@@ -209,11 +209,7 @@ public class SinglyLinkedList<T> {
         int i = 0;
 
         for (ListItem<T> current = head; current != null; current = current.getNext()) {
-            if (current.getData() == null) {
-                listToString.append("null");
-            } else {
-                listToString.append(current.getData());
-            }
+            listToString.append(current.getData());
 
             if (i == getSize() - 1) {
                 listToString.append(" }");
