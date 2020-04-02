@@ -12,8 +12,6 @@ import static java.util.stream.Collectors.averagingInt;
 
 public class Main {
     public static void main(String[] args) {
-
-        // Задача 1:
         ArrayList<Person> persons = new ArrayList<>();
 
         persons.add(new Person("Маргарита", 36));
