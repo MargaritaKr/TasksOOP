@@ -5,7 +5,6 @@ import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
-
         // Создать бесконечный поток корней чисел.
         // С консоли прочитать число – сколько элементов нужно вычислить, затем – распечатать эти элементы
         Scanner scanner = new Scanner(System.in);

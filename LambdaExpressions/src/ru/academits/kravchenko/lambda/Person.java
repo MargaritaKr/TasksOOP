@@ -21,7 +21,7 @@ public class Person {
         return age;
     }
 
-    public String toString(){
+    public String toString() {
         String ageToString;
 
         int lastDigit = age % 10;

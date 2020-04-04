@@ -26,18 +26,17 @@ public class Main {
 
         System.out.println("А) получить список уникальных имен: ");
 
-        persons.stream()
+        List<String> personsNames = persons.stream()
                 .map(Person::getName)
                 .distinct()
-                .forEach(System.out::println);
+                .collect(Collectors.toList());
 
+        personsNames.forEach(System.out::println);
         System.out.println();
 
         System.out.println("Б) вывести список уникальных имен в формате: ");
 
-        String allNamesString = persons.stream()
-                .map(Person::getName)
-                .distinct()
+        String allNamesString = personsNames.stream()
                 .collect(Collectors.joining(", ", "Имена: ", ""));
 
         System.out.println(allNamesString);
@@ -72,7 +71,7 @@ public class Main {
                 "вывести в консоль их имена в порядке убывания возраста");
 
         List<Person> persons2 = persons.stream()
-                .filter(person -> (person.getAge() >= 20 && person.getAge() <= 45))
+                .filter(person -> person.getAge() >= 20 && person.getAge() <= 45)
                 .collect(Collectors.toList());
 
         persons2.stream()
