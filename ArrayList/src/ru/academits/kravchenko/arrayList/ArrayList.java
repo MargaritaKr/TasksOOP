@@ -71,8 +71,6 @@ public class ArrayList<T> implements List<T> {
         T oldElement = elements[index];
         elements[index] = element;
 
-        modCount++;
-
         return oldElement;
     }
 
