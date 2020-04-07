@@ -4,6 +4,7 @@ import java.util.*;
 
 public class ArrayList<T> implements List<T> {
     private final static int LENGTH_COEFFICIENT = 2;
+    private final static int DEFAULT_CAPACITY = 10;
 
     private T[] elements;
     private int length;
@@ -11,10 +12,14 @@ public class ArrayList<T> implements List<T> {
 
     public ArrayList() {
         //noinspection unchecked
-        elements = (T[]) new Object[10];
+        elements = (T[]) new Object[DEFAULT_CAPACITY];
     }
 
     public ArrayList(int capacity) {
+        if (capacity < 0) {
+            throw new IndexOutOfBoundsException("capacity must be > 0");
+        }
+
         //noinspection unchecked
         elements = (T[]) new Object[capacity];
     }
@@ -31,27 +36,37 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void clear() {
-        length = 0;
+        for (int i = 0; i < length; i++) {
+            elements[i] = null;
+        }
 
-        trimToSize();
+        length = 0;
 
         modCount++;
     }
 
+    private void checkIndex(int index, boolean indexCanBeEqualLength) {
+        if (indexCanBeEqualLength) {
+            if (index > length || index < 0) {
+                throw new IndexOutOfBoundsException("index " + index + " out of bounds, it must be in [0, " + length + "]");
+            }
+        } else {
+            if (index >= length || index < 0) {
+                throw new IndexOutOfBoundsException("index " + index + " out of bounds, it must be in [0, " + (length - 1) + "]");
+            }
+        }
+    }
+
     @Override
     public T get(int index) {
-        if (index >= length || index < 0) {
-            throw new IndexOutOfBoundsException("index must be >= 0 and < ArrayList size");
-        }
+        checkIndex(index, false);
 
         return elements[index];
     }
 
     @Override
     public T set(int index, T element) {
-        if (index >= length || index < 0) {
-            throw new IndexOutOfBoundsException("index must be >= 0 and < ArrayList size");
-        }
+        checkIndex(index, false);
 
         T oldElement = elements[index];
         elements[index] = element;
@@ -63,18 +78,8 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public int indexOf(Object o) {
-        if (o == null) {
-            for (int i = 0; i < length; i++) {
-                if (elements[i] == null) {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
         for (int i = 0; i < length; i++) {
-            if (o.equals(elements[i])) {
+            if (Objects.equals(o, elements[i])) {
                 return i;
             }
         }
@@ -84,23 +89,13 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public int lastIndexOf(Object o) {
-        int lastIndex = -1;
-
-        if (o == null) {
-            for (int i = 0; i < length; i++) {
-                if (elements[i] == null) {
-                    lastIndex = i;
-                }
-            }
-        } else {
-            for (int i = 0; i < length; i++) {
-                if (o.equals(elements[i])) {
-                    lastIndex = i;
-                }
+        for (int i = length - 1; i >= 0; i--) {
+            if (Objects.equals(o, elements[i])) {
+                return i;
             }
         }
 
-        return lastIndex;
+        return -1;
     }
 
     @Override
@@ -125,20 +120,14 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void add(int index, T element) {
-        if (index > length || index < 0) {
-            throw new IndexOutOfBoundsException("index must be > 0 and <= ArrayList size");
-        }
+        checkIndex(index, true);
 
         if (length == elements.length) {
             increaseCapacity();
         }
 
-        if (index == length) {
-            elements[length] = element;
-        } else {
-            System.arraycopy(elements, index, elements, index + 1, length - index);
-            elements[index] = element;
-        }
+        System.arraycopy(elements, index, elements, index + 1, length - index);
+        elements[index] = element;
 
         length++;
 
@@ -147,15 +136,12 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public T remove(int index) {
-        if (index >= length || index < 0) {
-            throw new IndexOutOfBoundsException("index must be >= 0 and < ArrayList size");
-        }
+        checkIndex(index, false);
 
         T oldElement = elements[index];
 
         if (index < length - 1) {
             System.arraycopy(elements, index + 1, elements, index, length - index - 1);
-
         }
 
         length--;
@@ -163,10 +149,6 @@ public class ArrayList<T> implements List<T> {
         elements[length] = null;
 
         modCount++;
-
-        if (elements.length > length) {
-            trimToSize();
-        }
 
         return oldElement;
     }
@@ -179,15 +161,7 @@ public class ArrayList<T> implements List<T> {
             return false;
         }
 
-        System.arraycopy(elements, index + 1, elements, index, length - index - 1);
-
-        length--;
-
-        modCount++;
-
-        if (elements.length > length) {
-            trimToSize();
-        }
+        remove(index);
 
         return true;
     }
@@ -204,10 +178,17 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public <T1> T1[] toArray(T1[] a) {
-        //noinspection unchecked
-        T1[] elementsNew = (T1[]) elements;
+        if (a.length < length) {
+            //noinspection unchecked
+            return (T1[]) Arrays.copyOf(elements, length, a.getClass());
+        }
 
-        System.arraycopy(elementsNew, 0, a, 0, Math.min(a.length, length));
+        //noinspection SuspiciousSystemArraycopy
+        System.arraycopy(elements, 0, a, 0, length);
+
+        if (a.length > length) {
+            a[length] = null;
+        }
 
         return a;
     }
@@ -229,19 +210,25 @@ public class ArrayList<T> implements List<T> {
             return false;
         }
 
+        ensureCapacity(length + c.size());
+
+        int i = length;
+
         for (T t : c) {
-            add(t);
-            modCount++;
+            elements[i] = t;
+            i++;
         }
+
+        length += c.size();
+
+        modCount++;
 
         return true;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-        if (index > length || index < 0) {
-            throw new IndexOutOfBoundsException("index must be > 0 and <= ArrayList size");
-        }
+        checkIndex(index, true);
 
         if (c.size() == 0) {
             return false;
@@ -251,21 +238,20 @@ public class ArrayList<T> implements List<T> {
             return addAll(c);
         }
 
-        if (length + c.size() >= elements.length) {
-            ensureCapacity(length + c.size());
-        }
+        ensureCapacity(length + c.size());
 
         System.arraycopy(elements, index, elements, index + c.size(), length - index);
 
-        int i = 0;
+        int i = index;
 
         for (T t : c) {
-            elements[index + i] = t;
+            elements[i] = t;
             i++;
-            modCount++;
         }
 
         length += c.size();
+
+        modCount++;
 
         return true;
     }
@@ -280,17 +266,9 @@ public class ArrayList<T> implements List<T> {
         int newLength = length;
 
         for (int i = 0, j = 0; i < length; i++) {
-            boolean elementFound = false;
-
-            for (Object o : c) {
-                if (Objects.equals(elements[i], o)) {
-                    newLength--;
-                    elementFound = true;
-                    break;
-                }
-            }
-
-            if (!elementFound) {
+            if (c.contains(elements[i])) {
+                newLength--;
+            } else {
                 elements[j] = elements[i];
                 j++;
 
@@ -312,7 +290,6 @@ public class ArrayList<T> implements List<T> {
     @Override
     public boolean retainAll(Collection<?> c) {
         if (c.size() == 0) {
-
             if (length == 0) {
                 return false;
             }
@@ -325,16 +302,7 @@ public class ArrayList<T> implements List<T> {
         int newLength = length;
 
         for (int i = 0, j = 0; i < length; i++) {
-            boolean elementFound = false;
-
-            for (Object o : c) {
-                if (Objects.equals(elements[i], o)) {
-                    elementFound = true;
-                    break;
-                }
-            }
-
-            if (elementFound) {
+            if (c.contains(elements[i])) {
                 elements[j] = elements[i];
                 j++;
 
@@ -356,44 +324,51 @@ public class ArrayList<T> implements List<T> {
     }
 
     private void increaseCapacity() {
+        if (length == 0) {
+            elements = Arrays.copyOf(elements, DEFAULT_CAPACITY);
+        }
+
         elements = Arrays.copyOf(elements, length * LENGTH_COEFFICIENT);
     }
 
     public void ensureCapacity(int minCapacity) {
-        if (minCapacity <= length) {
-            return;
-        }
+        if (minCapacity > length) {
+            if (length == 0) {
+                //noinspection unchecked
+                elements = (T[]) new Object[minCapacity];
+            }
 
-        elements = Arrays.copyOf(elements, minCapacity);
+            elements = Arrays.copyOf(elements, minCapacity);
+        }
     }
 
     public void trimToSize() {
-        elements = Arrays.copyOf(elements, length);
+        if (elements.length > length) {
+            if (length == 0) {
+                //noinspection unchecked
+                elements = (T[]) new Object[0];
+            }
+
+            elements = Arrays.copyOf(elements, length);
+        }
     }
 
     public String toString() {
         if (length == 0) {
-            return "[ ]";
+            return "[]";
         }
 
-        StringBuilder listToString = new StringBuilder("[");
+        StringBuilder stringBuilder = new StringBuilder("[");
 
-        for (int i = 0; i < length; i++) {
-            if (elements[i] == null) {
-                listToString.append("null");
-            } else {
-                listToString.append(elements[i]);
-            }
-
-            if (i == length - 1) {
-                listToString.append("]");
-                return listToString.toString();
-            }
-
-            listToString.append(", ");
+        for (int i = 0; i < length - 1; i++) {
+            stringBuilder.append(elements[i]);
+            stringBuilder.append(", ");
         }
 
-        return listToString.toString();
+        stringBuilder.append(elements[length - 1]);
+        stringBuilder.append("]");
+
+        return stringBuilder.toString();
     }
 
     private class ArrayListIterator implements Iterator<T> {
@@ -407,12 +382,12 @@ public class ArrayList<T> implements List<T> {
 
         @Override
         public T next() {
-            if (currentIndex + 1 == length) {
-                throw new NoSuchElementException("Modification of the ArrayList has changed");
+            if (!hasNext()) {
+                throw new NoSuchElementException("ArrayList has not such elements");
             }
 
             if (currentModCount != modCount) {
-                throw new ConcurrentModificationException("ArrayList has not such elements");
+                throw new ConcurrentModificationException("Modification of the ArrayList has changed");
             }
 
             currentIndex++;
