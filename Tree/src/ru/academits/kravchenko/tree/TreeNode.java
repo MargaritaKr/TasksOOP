@@ -43,19 +43,19 @@ class TreeNode<T> { //
         this.right = right;
     }
 
-    public String toString(){
+    public String toString() {
         String dataStr = (data != null) ? data.toString() : "data : null";
         String leftStr = "null";
         String rightStr = "null";
 
-        if (left != null){
+        if (left != null) {
             leftStr = (left.getData() != null) ? left.getData().toString() : "data : null";
         }
 
-        if (right != null){
+        if (right != null) {
             rightStr = (right.getData() != null) ? right.getData().toString() : "data : null";
         }
 
-        return "[ " + dataStr + ", L - " + leftStr + ", R - " + rightStr +  " ]";
+        return "[ " + dataStr + ", L - " + leftStr + ", R - " + rightStr + " ]";
     }
 }
