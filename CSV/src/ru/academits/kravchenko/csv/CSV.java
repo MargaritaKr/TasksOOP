@@ -9,12 +9,26 @@ import java.util.Scanner;
 
 public class CSV {
     public static void main(String[] args) {
-        if (args.length != 2) {
-            throw new ArrayIndexOutOfBoundsException("2 parameters must be entered: path to the CSV file and to the result file");
+        String csvFile;
+        String htmlFile;
+
+        if (args.length == 2){
+           csvFile = args[0];
+           htmlFile = args[1];
+        } else {
+           System.out.println("Необходимо ввести пути к файлам.");
+
+           Scanner scanner = new Scanner(System.in);
+
+           System.out.println("Введите путь к файлу \".csv\" для обработки: ");
+           csvFile = scanner.nextLine();
+
+           System.out.println("Введите путь к файлу \".html\" для сохранения результата: ");
+           htmlFile = scanner.nextLine();
         }
 
-        try (Scanner scanner = new Scanner(new FileInputStream(args[0]));
-             PrintWriter writer = new PrintWriter(args[1])) {
+        try (Scanner scanner = new Scanner(new FileInputStream(csvFile));
+             PrintWriter writer = new PrintWriter(htmlFile)) {
             writer.println("<!DOCTYPE html>");
             writer.println("<html>");
             writer.println("<head>");
@@ -51,6 +65,10 @@ public class CSV {
 
                             writer.println("<td>");
                             writer.print(symbol);
+
+                            if (i == line.length() - 1) {
+                                writer.println("</td>");
+                            }
 
                             continue;
                         }
@@ -93,7 +111,6 @@ public class CSV {
                         startCellWithQuotes = false;
                         i++;
                         continue;
-
                     }
 
                     if (symbol == '<') {
@@ -110,6 +127,10 @@ public class CSV {
                         writer.println("<br/>");
                         line = scanner.nextLine();
                         i = -1;
+                    }
+
+                    if (startCellWithoutQuotes && i == line.length() - 1) {
+                        writer.println("</td>");
                     }
                 }
 
