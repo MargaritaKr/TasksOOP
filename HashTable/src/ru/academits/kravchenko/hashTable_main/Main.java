@@ -74,12 +74,15 @@ public class Main {
         names.removeAll(names2);
 
         System.out.println("Удалим из коллекции имен добавленные: " + names);
+        System.out.println("Размер итоговой коллекции: " + names.size());
         System.out.println();
 
-        System.out.println("Теперь удалим все имена, кроме списка - " + Arrays.toString(new String[]{"Маргарита", "Наталья"}));
+        System.out.println("Теперь удалим все имена, кроме списка - " + Arrays.toString(new String[]{null, "Маргарита", "Екатерина", "Егор", "Наталья", "Аркадий", "Дмитрий"}));
 
-        names.retainAll(Arrays.asList("Маргарита", "Наталья", null));
+        System.out.println(names.retainAll(Arrays.asList(null, "Маргарита", "Екатерина", "Егор", "Наталья", "Аркадий", "Дмитрий")));
 
         System.out.println("Новая коллекция имен: " + names);
+        System.out.println("Размер коллекции: " + names.size());
+        System.out.println();
     }
 }
