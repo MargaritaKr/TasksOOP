@@ -157,9 +157,9 @@ public class Window {
         buttonResultPanel.setBackground(backgroundColor);
 
         JButton getResult = new JButton("Convert");
-        buttonResultPanel.add(getResult);
-
         getResult.addActionListener(mainListener);
+
+        buttonResultPanel.add(getResult);
 
         return buttonResultPanel;
     }
