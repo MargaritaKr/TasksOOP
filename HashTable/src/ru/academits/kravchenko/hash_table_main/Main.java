@@ -1,6 +1,6 @@
-package ru.academits.kravchenko.hashTable_main;
+package ru.academits.kravchenko.hash_table_main;
 
-import ru.academits.kravchenko.hashTable.HashTable;
+import ru.academits.kravchenko.hash_table.HashTable;
 
 import java.util.Arrays;
 
@@ -77,9 +77,10 @@ public class Main {
         System.out.println("Размер итоговой коллекции: " + names.size());
         System.out.println();
 
-        System.out.println("Теперь удалим все имена, кроме списка - " + Arrays.toString(new String[]{null, "Маргарита", "Екатерина", "Егор", "Наталья", "Аркадий", "Дмитрий"}));
+        System.out.println("Теперь удалим все имена, кроме списка - " +
+                Arrays.toString(new String[]{null, "Маргарита", "Наталья", "Аркадий", "Дмитрий"}));
 
-        System.out.println(names.retainAll(Arrays.asList(null, "Маргарита", "Екатерина", "Егор", "Наталья", "Аркадий", "Дмитрий")));
+        System.out.println(names.retainAll(Arrays.asList(null, "Маргарита", "Наталья", "Аркадий", "Дмитрий")));
 
         System.out.println("Новая коллекция имен: " + names);
         System.out.println("Размер коллекции: " + names.size());

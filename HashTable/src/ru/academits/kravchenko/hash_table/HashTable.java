@@ -1,4 +1,4 @@
-package ru.academits.kravchenko.hashTable;
+package ru.academits.kravchenko.hash_table;
 
 import java.util.*;
 
@@ -18,6 +18,7 @@ public class HashTable<T> implements Collection<T> {
         if (capacity <= 0) {
             throw new IllegalArgumentException("capacity must be > 0");
         }
+
         //noinspection unchecked
         elements = new ArrayList[capacity];
     }
@@ -102,11 +103,13 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean remove(Object o) {
-        if (elements[getArrayIndex(o)] == null) {
+        int arrayIndex = getArrayIndex(o);
+
+        if (elements[arrayIndex] == null) {
             return false;
         }
 
-        if (elements[getArrayIndex(o)].remove(o)) {
+        if (elements[arrayIndex].remove(o)) {
             count--;
             modCount++;
 
@@ -133,8 +136,8 @@ public class HashTable<T> implements Collection<T> {
             return false;
         }
 
-        for (T t : c) {
-            add(t);
+        for (T element : c) {
+            add(element);
         }
 
         return true;
@@ -142,7 +145,7 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        if (c.size() == 0) {
+        if (c.size() == 0 || count == 0) {
             return false;
         }
 
@@ -160,30 +163,35 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        if (c.size() == 0) {
+        if (count == 0) {
             return false;
         }
 
-        boolean isChanged = false;
+        if (c.size() == 0) {
+            clear();
+
+            return true;
+        }
 
         int newCount = 0;
 
         for (ArrayList<T> element : elements) {
-
             if (element != null) {
-                isChanged = element.retainAll(c);
+                element.retainAll(c);
 
                 newCount += element.size();
             }
         }
 
-        count = newCount;
-
-        if (isChanged) {
-            modCount++;
+        if (count == newCount) {
+            return false;
         }
 
-        return isChanged;
+        count = newCount;
+
+        modCount++;
+
+        return true;
     }
 
     @Override
@@ -196,7 +204,31 @@ public class HashTable<T> implements Collection<T> {
     }
 
     public String toString() {
-        return Arrays.toString(toArray());
+        if (count == 0) {
+            return "[]";
+        }
+
+        StringBuilder stringBuilder = new StringBuilder("[");
+
+        int i = 0;
+
+        for (ArrayList<T> element : elements) {
+            if (element != null && element.size() > 0) {
+                for (T t : element) {
+                    stringBuilder.append(t);
+
+                    i++;
+
+                    if (i != count) {
+                        stringBuilder.append(", ");
+                    } else {
+                        stringBuilder.append("]");
+                    }
+                }
+            }
+        }
+
+        return stringBuilder.toString();
     }
 
     public String toTable() {
@@ -228,9 +260,8 @@ public class HashTable<T> implements Collection<T> {
     }
 
     private class HashTableIterator implements Iterator<T> {
-        private int currentIndex = -1;
         private final int currentModCount = modCount;
-
+        private int currentIndex = -1;
         private int listIndex = 0;
         private int inListIndex = 0;
 
